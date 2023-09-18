@@ -1,11 +1,12 @@
 package ru.example;
 
 import java.util.Objects;
+import java.util.OptionalInt;
 
 public class Person {
     private final String name;
     private final String surname;
-    private int age = 0;
+    private int age;
     private String address = null;
 
     public Person(String name, String surname) {
@@ -32,13 +33,12 @@ public class Person {
         this.address = address;
     }
 
-    public int happyBirthday() {
+    public void happyBirthday() {
         this.age++;
-        return this.age;
     }
 
     public Boolean hasAge() {
-        return this.age != 0;
+        return getAge().isPresent();
     }
 
     public Boolean hasAddress() {
@@ -59,8 +59,10 @@ public class Person {
         return surname;
     }
 
-    public int getAge() {
-        return age;
+    public OptionalInt getAge() {
+        if (age == 0)
+            return OptionalInt.empty();
+        return OptionalInt.of(age);
     }
 
     public String getAddress() {
@@ -73,11 +75,15 @@ public class Person {
 
     @Override
     public String toString() {
-        return "Person {" +
-                "name='" + name + '\'' +
-                ", surname='" + surname + '\'' +
-                ", age=" + age +
-                ", address='" + address + '\'' +
-                '}';
+        StringBuilder sb = new StringBuilder();
+        sb.append("Person {");
+        sb.append(", name='").append(name).append('\'');
+        sb.append(", surname='").append(surname).append('\'');
+        if (this.getAge().isPresent())
+            sb.append(", age='").append(age).append('\'');
+        if (Objects.nonNull(this.getAddress()))
+            sb.append(", address='").append(address).append('\'');
+        sb.append('}');
+        return sb.toString();
     }
 }

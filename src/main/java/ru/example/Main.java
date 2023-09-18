@@ -16,6 +16,9 @@ public class Main {
                 .build();
         System.out.println("У " + mom + " есть сын, " + son);
 
+        son.happyBirthday();
+        System.out.println("День рождения у сына: " + son);
+
         try {
             // Не хватает обяхательных полей
             new PersonBuilder().build();
@@ -29,5 +32,15 @@ public class Main {
         } catch (IllegalArgumentException e) {
             e.printStackTrace();
         }
+
+        Person test = new PersonBuilder()
+                .setName("Тест")
+                .setSurname("Тестович")
+                .build();
+
+        System.out.println(test);
+
+        System.out.println("Есть возраст? " + test.hasAge());
+        System.out.println("Есть адрес? " + test.hasAddress());
     }
 }
